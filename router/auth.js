@@ -37,34 +37,63 @@ router.get('/', (req, res) => {
 
 
 
+// User registration
 // ********** using async - await **********
 
 router.post('/register', async (req, res) => {
     const { name, email, password, cpassword } = req.body;
 
-    if(!name || !email || !password || !cpassword){
-        return res.status(422).json({error: "Please fill all the details properly"});
+    if (!name || !email || !password || !cpassword) {
+        return res.status(422).json({ error: "Please fill all the details properly" });
     }
 
-    try{
-        const userExists = await User.findOne({email: email});
+    try {
+        const userExists = await User.findOne({ email: email });
 
-        if(userExists){
-            return res.status(422).json({error: "Email already exists!"});
+        if (userExists) {
+            return res.status(422).json({ error: "Email already exists!" });
         }
 
-        const user = new User({name, email, password, cpassword});
-    
+        const user = new User({ name, email, password, cpassword });
+
         await user.save();
 
-        res.status(201).json({message: "User registered successfully"});
-        
+        res.status(201).json({ message: "User registered successfully" });
 
-    } catch(err) {
+
+    } catch (err) {
         console.log(err);
     }
 
 
 });
+
+
+// User login 
+
+router.post('/signin', async (req, res) => {
+
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ error: "Please fill all the details" });
+        }
+
+        const userLogin = await User.findOne({ email: email });
+
+        // console.log(userLogin);
+
+        if(!userLogin){
+            res.status(400).json({ error: "User does not exists!" });
+            
+        }else{
+            res.json({ message: "Logged in successfully" });
+        }
+
+    } catch (err) {
+        console.log(err);
+    }
+})
 
 module.exports = router;
