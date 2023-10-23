@@ -6,8 +6,12 @@ router.get('/', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    console.log(req.body);
-    res.json({message: req.body});
+    const { name, email, password, cpassword } = req.body;
+
+    if(!name || !email || !password || !cpassword){
+        return res.status(422).json({error: "Please fill all the details properly"});
+    }
+
 });
 
 module.exports = router;
