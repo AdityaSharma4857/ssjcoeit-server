@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 
 
 require('../db/connection');
@@ -53,12 +54,16 @@ router.post('/register', async (req, res) => {
         if (userExists) {
             return res.status(422).json({ error: "Email already exists!" });
         }
+        else if (password != cpassword) {
+            return res.status(422).json({ error: "Password are not matching" });
+        }
+        else {
+            const user = new User({ name, email, password, cpassword });
 
-        const user = new User({ name, email, password, cpassword });
+            await user.save();
 
-        await user.save();
-
-        res.status(201).json({ message: "User registered successfully" });
+            res.status(201).json({ message: "User registered successfully" });
+        }
 
 
     } catch (err) {
@@ -84,12 +89,21 @@ router.post('/signin', async (req, res) => {
 
         // console.log(userLogin);
 
-        if(!userLogin){
-            res.status(400).json({ error: "User does not exists!" });
-            
-        }else{
-            res.json({ message: "Logged in successfully" });
+        if (userLogin) {
+            const isMatch = await bcrypt.compare(password, userLogin.password);
+
+            if (!isMatch) {
+                res.status(400).json({ error: "Invalid credentials!" });
+
+            } else {
+                res.json({ message: "Logged in successfully" });
+            }
+        } 
+        else {
+            res.status(400).json({ error: "Invalid credentials!" });
         }
+
+
 
     } catch (err) {
         console.log(err);
