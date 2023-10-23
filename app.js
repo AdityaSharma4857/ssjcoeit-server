@@ -2,10 +2,17 @@ const dotenv = require("dotenv");
 const express = require('express');
 const app = express();
 
+// importing dotenv and connection file
 dotenv.config({path: './config.env'});
 require('./db/connection');
 
+// parsing data from json format to object
+app.use(express.json());
 
+// imported router file with app.js
+app.use(require('./router/auth'));
+
+// Defining PORT using dotenv
 const PORT = process.env.PORT;
 
 
@@ -50,6 +57,10 @@ app.get('/notices', (req, res) => {
 app.get('/login', (req, res) => {
     res.send(`Hello Aditya, from SSJCOE's login server`);
 });
+
+// app.get('/register', (req, res) => {
+//     res.send(`Hello Aditya, from SSJCOE's register server`);
+// });
 
 app.get('/attendance', middleware, (req, res) => {
     console.log(`Hello from attendance page`)
