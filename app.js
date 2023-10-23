@@ -1,5 +1,13 @@
+const dotenv = require("dotenv");
 const express = require('express');
 const app = express();
+
+dotenv.config({path: './config.env'});
+require('./db/connection');
+
+
+const PORT = process.env.PORT;
+
 
 // Middleware
 
@@ -9,7 +17,7 @@ const middleware = (req, res, next) => {
 }
 
 
-
+// Routing
 
 app.get('/', (req, res) => {
     res.send(`Hello Aditya, from SSJCOE's server`);
@@ -48,6 +56,10 @@ app.get('/attendance', middleware, (req, res) => {
     res.send(`Hello Aditya, from SSJCOE's attendance server`);
 });
 
-app.listen(3000, () => {
-    console.log(`Server is running on port 3000`);
+
+
+// Listening to port
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
