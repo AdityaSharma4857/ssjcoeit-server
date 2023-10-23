@@ -26,9 +26,6 @@ const middleware = (req, res, next) => {
 
 // Routing
 
-app.get('/', (req, res) => {
-    res.send(`Hello Aditya, from SSJCOE's server`);
-});
 
 app.get('/about', (req, res) => {
     res.send(`Hello Aditya, from SSJCOE's about server`);
@@ -54,13 +51,6 @@ app.get('/notices', (req, res) => {
     res.send(`Hello Aditya, from SSJCOE's notices server`);
 });
 
-app.get('/login', (req, res) => {
-    res.send(`Hello Aditya, from SSJCOE's login server`);
-});
-
-// app.get('/register', (req, res) => {
-//     res.send(`Hello Aditya, from SSJCOE's register server`);
-// });
 
 app.get('/attendance', middleware, (req, res) => {
     console.log(`Hello from attendance page`)
