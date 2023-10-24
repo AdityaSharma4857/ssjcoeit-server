@@ -1,5 +1,5 @@
-const dotenv = require("dotenv");
 const express = require('express');
+const dotenv = require("dotenv");
 const app = express();
 
 // importing dotenv and connection file
