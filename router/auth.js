@@ -42,7 +42,7 @@ router.get('/', (req, res) => {
 // User registration
 // ********** using async - await **********
 
-router.post('/signup', async (req, res) => {
+router.post('/register', async (req, res) => {
     const { name, email, password, cpassword } = req.body;
 
     if (!name || !email || !password || !cpassword) {
